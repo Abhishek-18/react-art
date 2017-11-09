@@ -20,7 +20,7 @@ const Transform = require('art/core/transform');
 const invariant = require('fbjs/lib/invariant');
 const emptyObject = require('fbjs/lib/emptyObject');
 const React = require('react');
-const ReactFiberReconciler = require('react-dom/lib/ReactFiberReconciler');
+const ReactFiberReconciler = require('react-reconciler');
 
 const { Component } = React;
 

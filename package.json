@@ -20,7 +20,8 @@
   "dependencies": {
     "art": "^0.10.1",
     "fbjs": "^0.8.1",
-    "object-assign": "^4.0.1"
+    "object-assign": "^4.0.1",
+    "react-reconciler": "^0.5.0"
   },
   "peerDependencies": {
     "react": "^16.0.0"
