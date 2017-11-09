@@ -393,13 +393,6 @@ class Surface extends Component {
 /** ART Renderer */
 
 const ARTRenderer = ReactFiberReconciler({
-  appendChild(parentInstance, child) {
-    if (child.parentNode === parentInstance) {
-      child.eject();
-    }
-
-    child.inject(parentInstance);
-  },
 
   appendInitialChild(parentInstance, child) {
     if (typeof child === 'string') {
@@ -408,18 +401,6 @@ const ARTRenderer = ReactFiberReconciler({
     }
 
     child.inject(parentInstance);
-  },
-
-  commitTextUpdate(textInstance, oldText, newText) {
-    // Noop
-  },
-
-  commitMount(instance, type, newProps) {
-    // Noop
-  },
-
-  commitUpdate(instance, type, oldProps, newProps) {
-    instance._applyProps(instance, newProps, oldProps);
   },
 
   createInstance(type, props, internalInstanceHandle) {
@@ -464,27 +445,12 @@ const ARTRenderer = ReactFiberReconciler({
     return false;
   },
 
-  insertBefore(parentInstance, child, beforeChild) {
-    invariant(
-      child !== beforeChild,
-      'ReactART: Can not insert node before itself'
-    );
-
-    child.injectBefore(beforeChild);
-  },
-
   prepareForCommit() {
     // Noop
   },
 
   prepareUpdate(domElement, type, oldProps, newProps) {
     return true;
-  },
-
-  removeChild(parentInstance, child) {
-    destroyEventListeners(child);
-
-    child.eject();
   },
 
   resetAfterCommit() {
@@ -515,6 +481,44 @@ const ARTRenderer = ReactFiberReconciler({
   },
 
   useSyncScheduling: true,
+
+  mutation: {
+    appendChild(parentInstance, child) {
+      if (child.parentNode === parentInstance) {
+        child.eject();
+      }
+
+      child.inject(parentInstance);
+    },
+
+    insertBefore(parentInstance, child, beforeChild) {
+      invariant(
+        child !== beforeChild,
+        'ReactART: Can not insert node before itself'
+      );
+
+      child.injectBefore(beforeChild);
+    },
+
+    removeChild(parentInstance, child) {
+      destroyEventListeners(child);
+
+      child.eject();
+    },
+
+    commitTextUpdate(textInstance, oldText, newText) {
+      // Noop
+    },
+
+    commitMount(instance, type, newProps) {
+      // Noop
+    },
+
+    commitUpdate(instance, type, oldProps, newProps) {
+      instance._applyProps(instance, newProps, oldProps);
+    },
+
+  }
 });
 
 /** API */
