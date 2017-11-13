@@ -12,7 +12,7 @@
 
 require('art/modes/current').setCurrent(
   // Change to 'art/modes/dom' for easier debugging via SVG
-  require('art/modes/fast-noSideEffects'),
+  require('art/modes/svg'),
 );
 
 const Mode = require('art/modes/current');
@@ -21,8 +21,10 @@ const invariant = require('fbjs/lib/invariant');
 const emptyObject = require('fbjs/lib/emptyObject');
 const React = require('react');
 const ReactFiberReconciler = require('react-reconciler');
+var ReactDOMFrameScheduling = require('./ReactDOMFrameScheduling');
 
-const { Component } = React;
+
+const {Component} = React;
 
 const pooledTransform = new Transform();
 
@@ -179,7 +181,7 @@ function applyNodeProps(instance, props, prevProps = {}) {
   if (
     instance.xx !== pooledTransform.xx || instance.yx !== pooledTransform.yx ||
     instance.xy !== pooledTransform.xy || instance.yy !== pooledTransform.yy ||
-    instance.x  !== pooledTransform.x  || instance.y  !== pooledTransform.y
+    instance.x !== pooledTransform.x || instance.y !== pooledTransform.y
   ) {
     instance.transformTo(pooledTransform);
   }
@@ -255,8 +257,8 @@ function applyShapeProps(instance, props, prevProps = {}) {
   ) {
     instance.draw(
       path,
-      props.width,
-      props.height,
+      props.strokeWidth,
+      props.stroke,
     );
 
     instance._prevDelta = path.delta;
@@ -270,8 +272,7 @@ function applyTextProps(instance, props, prevProps = {}) {
   const string = childrenAsString(props.children);
 
   if (
-    instance._currentString !== string ||
-    !isSameFont(props.font, prevProps.font) ||
+    instance._currentString !== string || !isSameFont(props.font, prevProps.font) ||
     props.alignment !== prevProps.alignment ||
     props.path !== prevProps.path
   ) {
@@ -324,7 +325,7 @@ class Pattern {
 
 class Surface extends Component {
   componentDidMount() {
-    const { height, width } = this.props;
+    const {height, width} = this.props;
 
     this._surface = Mode.Surface(+width, +height, this._tagRef);
 
@@ -385,6 +386,128 @@ class Surface extends Component {
         style={props.style}
         tabIndex={props.tabIndex}
         title={props.title}
+      />
+    );
+  }
+}
+
+class Shape extends Component {
+  componentDidMount() {
+
+    this.shape = Mode.Shape(this.props.d, this.props.strokeWidth, this.props.stroke, this._tagRef);
+    console.log("props", this.props.d, this.props.strokeWidth, this.props.stroke);
+    this._mountNode = ARTRenderer.createContainer(this.shape);
+    ARTRenderer.updateContainer(
+      this.props.children,
+      this._mountNode,
+      this,
+    );
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    const props = this.props;
+
+    ARTRenderer.updateContainer(
+      this.props.children,
+      this._mountNode,
+      this,
+    );
+
+    if (this.shape.draw) {
+      this.shape.draw(this.props.d, this.props.strokeWidth, this.props.stroke);
+    }
+  }
+
+  componentWillUnmount() {
+    ARTRenderer.updateContainer(
+      null,
+      this._mountNode,
+      this,
+    );
+  }
+
+  render() {
+    // This is going to be a placeholder because we don't know what it will
+    // actually resolve to because ART may render canvas, vml or svg tags here.
+    // We only allow a subset of properties since others might conflict with
+    // ART's properties.
+    const props = this.props;
+
+    // TODO: ART's Canvas Mode overrides surface title and cursor
+    const Tag = Mode.Shape.tagName;
+
+    return (
+      <Tag
+        ref={ref => this._tagRef = ref}
+        accessKey={props.accessKey}
+        className={props.className}
+        draggable={props.draggable}
+        role={props.role}
+        style={props.style}
+        tabIndex={props.tabIndex}
+        title={props.title}
+        stroke={props.stroke}
+        strokeWidth={props.strokeWidth}
+        d={props.d}
+      />
+    );
+  }
+}
+
+class Group extends Component {
+  componentDidMount() {
+
+    this.group = Mode.Group(this.props.width, this.props.height, this._tagRef);
+    applyGroupProps(this.group,this.props);
+    this._mountNode = ARTRenderer.createContainer(this.group);
+    ARTRenderer.updateContainer(
+      this.props.children,
+      this._mountNode,
+      this,
+    );
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    ARTRenderer.updateContainer(
+      this.props.children,
+      this._mountNode,
+      this,
+    );
+  }
+
+  componentWillUnmount() {
+    ARTRenderer.updateContainer(
+      null,
+      this._mountNode,
+      this,
+    );
+  }
+
+  render() {
+    // This is going to be a placeholder because we don't know what it will
+    // actually resolve to because ART may render canvas, vml or svg tags here.
+    // We only allow a subset of properties since others might conflict with
+    // ART's properties.
+    const props = this.props;
+
+    // TODO: ART's Canvas Mode overrides surface title and cursor
+    const Tag = Mode.Group.tagName;
+
+
+    return (
+      <Tag
+        ref={ref => this._tagRef = ref}
+        accessKey={props.accessKey}
+        className={props.className}
+        draggable={props.draggable}
+        role={props.role}
+        style={props.style}
+        tabIndex={props.tabIndex}
+        title={props.title}
+        rotation={props.rotation}
+        originX={props.originX}
+        originY={props.originY}
+        children={props.children}
       />
     );
   }
@@ -457,10 +580,6 @@ const ARTRenderer = ReactFiberReconciler({
     // Noop
   },
 
-  resetTextContent(domElement) {
-    // Noop
-  },
-
   getRootHostContext() {
     return emptyObject;
   },
@@ -469,9 +588,15 @@ const ARTRenderer = ReactFiberReconciler({
     return emptyObject;
   },
 
+  getPublicInstance(instance) {
+    return instance;
+  },
+
   scheduleAnimationCallback: window.requestAnimationFrame,
 
   scheduleDeferredCallback: window.requestIdleCallback,
+
+  now: ReactDOMFrameScheduling.now,
 
   shouldSetTextContent(props) {
     return (
@@ -484,6 +609,14 @@ const ARTRenderer = ReactFiberReconciler({
 
   mutation: {
     appendChild(parentInstance, child) {
+      if (child.parentNode === parentInstance) {
+        child.eject();
+      }
+
+      child.inject(parentInstance);
+    },
+
+    appendChildToContainer(parentInstance, child) {
       if (child.parentNode === parentInstance) {
         child.eject();
       }
@@ -506,6 +639,12 @@ const ARTRenderer = ReactFiberReconciler({
       child.eject();
     },
 
+    removeChildFromContainer(parentInstance, child) {
+      destroyEventListeners(child);
+
+      child.eject();
+    },
+
     commitTextUpdate(textInstance, oldText, newText) {
       // Noop
     },
@@ -518,6 +657,9 @@ const ARTRenderer = ReactFiberReconciler({
       instance._applyProps(instance, newProps, oldProps);
     },
 
+    resetTextContent(domElement) {
+      // Noop
+    },
   }
 });
 
@@ -525,13 +667,13 @@ const ARTRenderer = ReactFiberReconciler({
 
 module.exports = {
   ClippingRectangle: TYPES.CLIPPING_RECTANGLE,
-  Group: TYPES.GROUP,
+  Group: Group,
   LinearGradient,
   Path: Mode.Path,
   Pattern,
   RadialGradient,
-  Shape: TYPES.SHAPE,
+  Shape: Shape,
   Surface,
-  Text: TYPES.TEXT,
+  Text: Mode.TEXT,
   Transform,
 };
