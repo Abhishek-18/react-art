@@ -27,13 +27,12 @@
       <file leaf-file-name="ReactARTFiber.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/ReactARTFiber.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="247">
-              <caret line="671" column="17" lean-forward="false" selection-start-line="671" selection-start-column="17" selection-end-line="671" selection-end-column="17" />
+            <state relative-caret-position="225">
+              <caret line="15" column="2" lean-forward="false" selection-start-line="15" selection-start-column="2" selection-end-line="15" selection-end-column="2" />
               <folding>
                 <element signature="n#RadialGradient#0" expanded="false" />
                 <element signature="n#Pattern#0" expanded="false" />
-                <element signature="n#Shape#0" expanded="false" />
-                <marker date="1510572316000" expanded="true" signature="10943:12382" ph="{...}" />
+                <element signature="n#Group#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -43,7 +42,7 @@
         <entry file="file://$PROJECT_DIR$/lib/ReactARTFiber.js">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="214">
-              <caret line="642" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="654" selection-end-column="2" />
+              <caret line="640" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="652" selection-end-column="2" />
               <folding />
             </state>
           </provider>
@@ -62,14 +61,9 @@
       <file leaf-file-name="package.json" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/package.json">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="315">
-              <caret line="23" column="30" lean-forward="false" selection-start-line="23" selection-start-column="30" selection-end-line="23" selection-end-column="30" />
-              <folding>
-                <marker date="1510576096000" expanded="true" signature="627:750" ph="{&quot;fbjs&quot;: &quot;^0.8.1&quot;...}" />
-                <marker date="1510576096000" expanded="true" signature="774:802" ph="{&quot;react&quot;: &quot;^16.0.0&quot;...}" />
-                <marker date="1510576096000" expanded="true" signature="825:1180" ph="{&quot;babel-jest&quot;: &quot;^12.0.2&quot;...}" />
-                <marker date="1510576096000" expanded="true" signature="1195:1245" ph="{&quot;prepublish&quot;: &quot;gulp&quot;...}" />
-              </folding>
+            <state relative-caret-position="148">
+              <caret line="42" column="8" lean-forward="false" selection-start-line="42" selection-start-column="3" selection-end-line="42" selection-end-column="8" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -85,8 +79,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>class Sur</find>
-      <find>Mode.Surface.R</find>
       <find>ReactFiberReconciler</find>
       <find>type</find>
       <find>appendChildT</find>
@@ -115,6 +107,8 @@
       <find>Group</find>
       <find>4</find>
       <find>debugger</find>
+      <find>class Shape</find>
+      <find>art</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -277,16 +271,16 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1510250812927</updated>
-      <workItem from="1510250814555" duration="29260000" />
+      <workItem from="1510250814555" duration="30912000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="29260000" />
+    <option name="totallyTimeSpent" value="30912000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1440" height="900" extended-state="0" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="Gulp" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24947146" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
@@ -537,23 +531,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/ReactARTFiber.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="247">
-          <caret line="671" column="17" lean-forward="false" selection-start-line="671" selection-start-column="17" selection-end-line="671" selection-end-column="17" />
-          <folding>
-            <element signature="n#RadialGradient#0" expanded="false" />
-            <element signature="n#Pattern#0" expanded="false" />
-            <element signature="n#Shape#0" expanded="false" />
-            <marker date="1510572316000" expanded="true" signature="10943:12382" ph="{...}" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/lib/ReactARTFiber.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="214">
-          <caret line="642" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="654" selection-end-column="2" />
+          <caret line="640" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="652" selection-end-column="2" />
           <folding />
         </state>
       </provider>
@@ -614,16 +595,31 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/node_modules/art-react-fork/modes/svg/shape.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="360">
+          <caret line="24" column="0" lean-forward="false" selection-start-line="24" selection-start-column="0" selection-end-line="24" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/ReactARTFiber.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="225">
+          <caret line="15" column="2" lean-forward="false" selection-start-line="15" selection-start-column="2" selection-end-line="15" selection-end-column="2" />
+          <folding>
+            <element signature="n#RadialGradient#0" expanded="false" />
+            <element signature="n#Pattern#0" expanded="false" />
+            <element signature="n#Group#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/package.json">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="315">
-          <caret line="23" column="30" lean-forward="false" selection-start-line="23" selection-start-column="30" selection-end-line="23" selection-end-column="30" />
-          <folding>
-            <marker date="1510576096000" expanded="true" signature="627:750" ph="{&quot;fbjs&quot;: &quot;^0.8.1&quot;...}" />
-            <marker date="1510576096000" expanded="true" signature="774:802" ph="{&quot;react&quot;: &quot;^16.0.0&quot;...}" />
-            <marker date="1510576096000" expanded="true" signature="825:1180" ph="{&quot;babel-jest&quot;: &quot;^12.0.2&quot;...}" />
-            <marker date="1510576096000" expanded="true" signature="1195:1245" ph="{&quot;prepublish&quot;: &quot;gulp&quot;...}" />
-          </folding>
+        <state relative-caret-position="148">
+          <caret line="42" column="8" lean-forward="false" selection-start-line="42" selection-start-column="3" selection-end-line="42" selection-end-column="8" />
+          <folding />
         </state>
       </provider>
     </entry>
