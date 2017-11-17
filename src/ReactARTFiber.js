@@ -395,7 +395,6 @@ class Shape extends Component {
   componentDidMount() {
 
     this.shape = Mode.Shape(this.props.d, this.props.strokeWidth, this.props.stroke, this._tagRef);
-    console.log("props", this.props.d, this.props.strokeWidth, this.props.stroke);
     this._mountNode = ARTRenderer.createContainer(this.shape);
     ARTRenderer.updateContainer(
       this.props.children,
