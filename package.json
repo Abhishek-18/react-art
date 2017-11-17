@@ -18,7 +18,7 @@
     "url": "https://github.com/reactjs/react-art.git"
   },
   "dependencies": {
-    "art-react-fork": "^0.1.1",
+    "art-react-fork": "^0.1.2",
     "fbjs": "^0.8.1",
     "object-assign": "^4.0.1",
     "react-reconciler": "^0.5.0"
