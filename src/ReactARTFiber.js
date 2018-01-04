@@ -347,11 +347,13 @@ class Surface extends Component {
       this._surface.resize(+props.width, +props.height);
     }
 
-    ARTRenderer.updateContainer(
-      this.props.children,
-      this._mountNode,
-      this,
-    );
+    window.requestAnimationFrame(() => {
+      ARTRenderer.updateContainer(
+        this.props.children,
+        this._mountNode,
+        this,
+      );
+    });
 
     if (this._surface.render) {
       this._surface.render();
@@ -394,7 +396,7 @@ class Surface extends Component {
 class Shape extends Component {
   componentDidMount() {
 
-    this.shape = Mode.Shape(this.props.d, this.props.strokeWidth, this.props.stroke, this._tagRef);
+    this.shape = Mode.Shape(this.props.d.path, this.props.strokeWidth, this.props.stroke, this._tagRef);
     this._mountNode = ARTRenderer.createContainer(this.shape);
     ARTRenderer.updateContainer(
       this.props.children,
@@ -403,17 +405,24 @@ class Shape extends Component {
     );
   }
 
+  shouldComponentUpdate(newProps) {
+    return this.props.d !== newProps.d;
+  }
+
+
   componentDidUpdate(prevProps, prevState) {
     const props = this.props;
 
-    ARTRenderer.updateContainer(
-      this.props.children,
-      this._mountNode,
-      this,
-    );
+    window.requestAnimationFrame(() => {
+      ARTRenderer.updateContainer(
+        this.props.children,
+        this._mountNode,
+        this,
+      );
+    });
 
     if (this.shape.draw) {
-      this.shape.draw(this.props.d, this.props.strokeWidth, this.props.stroke);
+      this.shape.draw(this.props.d.path, this.props.strokeWidth, this.props.stroke);
     }
   }
 
@@ -447,7 +456,7 @@ class Shape extends Component {
         title={props.title}
         stroke={props.stroke}
         strokeWidth={props.strokeWidth}
-        d={props.d}
+        d={props.d.path}
       />
     );
   }
@@ -457,7 +466,7 @@ class Group extends Component {
   componentDidMount() {
 
     this.group = Mode.Group(this.props.width, this.props.height, this._tagRef);
-    applyGroupProps(this.group,this.props);
+    applyGroupProps(this.group, this.props);
     this._mountNode = ARTRenderer.createContainer(this.group);
     ARTRenderer.updateContainer(
       this.props.children,
@@ -467,11 +476,13 @@ class Group extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    ARTRenderer.updateContainer(
-      this.props.children,
-      this._mountNode,
-      this,
-    );
+    window.requestAnimationFrame(() => {
+      ARTRenderer.updateContainer(
+        this.props.children,
+        this._mountNode,
+        this,
+      );
+    });
   }
 
   componentWillUnmount() {
