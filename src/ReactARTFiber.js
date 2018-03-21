@@ -602,9 +602,9 @@ const ARTRenderer = ReactFiberReconciler({
     return instance;
   },
 
-  scheduleAnimationCallback: window.requestAnimationFrame,
+  scheduleAnimationCallback: typeof window !== 'undefined' && window.requestAnimationFrame,
 
-  scheduleDeferredCallback: window.requestIdleCallback,
+  scheduleDeferredCallback: typeof window !== 'undefined' &&  window.requestIdleCallback,
 
   now: ReactDOMFrameScheduling.now,
 
